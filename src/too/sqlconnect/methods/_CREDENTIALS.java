@@ -1,12 +1,12 @@
 package too.sqlconnect.methods;
 
 /**
- * This class holds credentials for connecting to the database
+ * Esta vlasse segura as credenciais para a conexão com o banco MySQL
  */
 public class _CREDENTIALS {
-
+	
 	private String hostname = null;
-	private int    port     = 1433;
+	private int    port     = -1;
 	private String database = null;
 	private String username = null;
 	private String password = null;
@@ -27,13 +27,22 @@ public class _CREDENTIALS {
 	 * @param database is the database to be connected.
 	 */
 	public _CREDENTIALS(String hostname, int port, String username, String password, String database) {
+		//gathers the credentials
 		this.hostname = hostname;
 		this.port = port;
 		this.database = database;
 		this.username = username;
 		this.password = password;
 		
-		this.connURL = "jdbc:sqlserver//" +this.hostname +':' +this.port +'/' +this.database;
+		//mounts the host
+		this.connURL = "jdbc:mysql//" +this.hostname;
+		//mounts the port
+		if(this.port == -1) { //if there is a specified port
+			this.connURL += ':' +this.port; //implements is
+		}
+		
+		this.connURL += '/' +this.database +"&user=" +this.username +"&password=" +this.password;
+		
 	}
 	
 	/**
