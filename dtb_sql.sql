@@ -1,5 +1,5 @@
 /**
- * Execute este script para criar o banco de dados usado na conexão genérica.
+ * Execute este script no DevServer para criar o banco de dados usado na conexão genérica.
  */
 
 -- phpMyAdmin SQL Dump

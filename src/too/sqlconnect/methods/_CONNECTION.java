@@ -18,12 +18,12 @@ public class _CONNECTION {
 	/**
 	 * As credenciais usadas na conexão.
 	 */
-	private        _CREDENTIALS credentials        = null;
+	private _CREDENTIALS credentials = null;
 	/**
 	 * Credenciais genéricas para a conexão com o banco MySQL.
 	 * Exige um banco com o nome <code>dtb_sql</code> para funcionar.
 	 */
-	final   static _CREDENTIALS genericCredentials = new _CREDENTIALS("localhost", -1, "admin", "", "dtb_sql");
+	final   static _CREDENTIALS genericCredentials = new _CREDENTIALS("localhost", 1111, "admin", "", "dtb_sql");
 
 	/**
 	 * A instância de {@code Connection} para segurar o estado da conexão

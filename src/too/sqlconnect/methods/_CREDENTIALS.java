@@ -1,10 +1,14 @@
 package too.sqlconnect.methods;
 
 /**
- * Esta vlasse segura as credenciais para a conexão com o banco MySQL
+ * Esta vlasse segura as credenciais para a conexão com o banco MySQL.
+ * @author Wilker Santana da Silva
  */
 public class _CREDENTIALS {
 	
+	/**
+	 * IP address or ho
+	 */
 	private String hostname = null;
 	private int    port     = -1;
 	private String database = null;
@@ -20,11 +24,15 @@ public class _CREDENTIALS {
 	
 	/**
 	 * Builds the credentials for connecting to the server database.
-	 * @param hostname is the address of the host. Can be an IP or a hostname.
-	 * @param port is the port to which it will connect to. <b>(default is <code>1433</code>)<b>
-	 * @param username is the username to use as the credential.
-	 * @param password is the password to use with this username.
-	 * @param database is the database to be connected.
+	 * @param hostname	is the address of the host. Can be an IP or a hostname.
+	 * @param port		is the port to which it will connect to.
+	 * 					use <code>-1</code> if there is no port needed.
+	 * 					otherwise, specify the port.
+	 * @param username	is the username to use as the credential.
+	 * 					use <code>null</code> if there is no username needed.
+	 * @param password	is the password to use with this username.
+	 * 					use <code>null</code> if there is no password needed.
+	 * @param database	is the database to be accessed.
 	 */
 	public _CREDENTIALS(String hostname, int port, String username, String password, String database) {
 		//gathers the credentials
