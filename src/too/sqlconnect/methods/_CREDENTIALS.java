@@ -35,22 +35,17 @@ public class _CREDENTIALS {
 	 * @param database	is the database to be accessed.
 	 */
 	public _CREDENTIALS(String hostname, int port, String username, String password, String database) {
-		//gathers the credentials
 		this.hostname = hostname;
-		this.port = port;
+		this.port     = port;
 		this.database = database;
 		this.username = username;
 		this.password = password;
 		
-		//mounts the host
-		this.connURL = "jdbc:mysql//" +this.hostname;
-		//mounts the port
-		if(this.port == -1) { //if there is a specified port
-			this.connURL += ':' +this.port; //implements is
-		}
-		
-		this.connURL += '/' +this.database +"&user=" +this.username +"&password=" +this.password;
-		
+		this.connURL = "jdbc:mysql://" +this.hostname +"?useUnicode=true"; //server adddress
+		this.connURL += ":" +this.port; //connection port
+		this.connURL += '/' +this.database; //database
+		this.connURL += "&useSSL=true"; //certificate
+		this.connURL += "&useJDBCCompliantTimezonShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; //timezone
 	}
 	
 	/**
@@ -61,9 +56,19 @@ public class _CREDENTIALS {
 		return this.connURL;
 	}
 	
+	public String getHostname()              { return this.hostname;     }
+	public void setHostname(String hostname) { this.hostname = hostname; }
+
+	public int getPort()          { return this.port; }
+	public void setPort(int port) { this.port = port; }
+	
+	public String getDatabase()              { return this.database;     }
+	public void setDatabase(String database) { this.database = database; }
+	
 	public String getUsername()              { return this.username;     }
 	public void setUsername(String username) { this.username = username; }
 
 	public String getPassword()              { return this.password;     }
 	public void setPassword(String password) { this.password = password; }
+
 }
