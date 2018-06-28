@@ -32,7 +32,6 @@ public class _CONNECTION {
 	 * A instância de {@code Connection} para segurar o estado da conexão
 	 */
 	protected Connection _conn = null;
-	protected PreparedStatement query = null;
 	
 	/**
 	 * Construtor com credenciais genéricas de conexão
@@ -162,6 +161,7 @@ public class _CONNECTION {
 			
 		} finally {
 			cn.disconnect();
+			System.exit(0);
 		}
 	}
 }
