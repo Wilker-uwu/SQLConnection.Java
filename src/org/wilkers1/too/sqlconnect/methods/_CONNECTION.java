@@ -1,4 +1,4 @@
-package com.wilkers1.too.sqlconnect.methods;
+package org.wilkers1.too.sqlconnect.methods;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

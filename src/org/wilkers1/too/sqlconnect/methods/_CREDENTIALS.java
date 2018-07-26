@@ -1,4 +1,4 @@
-package com.wilkers1.too.sqlconnect.methods;
+package org.wilkers1.too.sqlconnect.methods;
 
 /**
  * Esta vlasse segura as credenciais para a conexão com o banco MySQL.
