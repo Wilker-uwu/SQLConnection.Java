@@ -1,4 +1,4 @@
-package org.wilkers1.too.sqlconnect.methods;
+package com.etec.mysql.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -107,6 +107,10 @@ public class _CONNECTION {
 		}
 	}
 	
+	/**
+	 * Desconecta o objeto {@link #_conn} do banco de dados.
+	 * @return a conexão fechada numa instância de Connection
+	 */
 	public Connection disconnect() {
 		try {
 			this._conn.close();
@@ -147,12 +151,16 @@ public class _CONNECTION {
 			//imprime na tela este comando
 			System.out.println(get);
 			
+			//executa o comando de pesquisa e retorna um 'conjunto de resultados'/'ResultSet'
 			ResultSet output = getter.executeQuery();
+			//adquire os resultados deste ResultSet
 			ResultSetMetaData outmeta = output.getMetaData();
-			if(output.next()) {
-				for(int c=0; c<outmeta.getColumnCount(); c++) {
+			if(output.next()) { //se há um próximo resultado dessa tabela...
+				for(int c=0; c<outmeta.getColumnCount(); c++) { //repete-se para cada coluna desta linha...
+					//imprime no console o nome da coluna e seu valor respectivo
 					System.out.println(outmeta.getColumnLabel(c+1) +":\t" +output.getObject(c+1));
 				}
+				//fecha a instância de pesquisa
 				output.close();
 			}
 			
@@ -160,8 +168,8 @@ public class _CONNECTION {
 			exp.printStackTrace();
 			
 		} finally {
-			cn.disconnect();
-			System.exit(0);
+			cn.disconnect(); //desconecta-se o programa do banco.
+			System.exit(0); //termina o programa.
 		}
 	}
 }
