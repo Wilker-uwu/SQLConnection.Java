@@ -98,9 +98,9 @@ public class _CONNECTION {
 			
 		} finally {
 			try {
-				if (!stayConnected)
+				if (!stayConnected) //se não houve comando para manter-se connectado
 					if(this._conn != null)
-							this._conn.close();
+							this._conn.close(); //feche a conexão se estiver aberta
 			} catch(Exception exp) {
 				exp.printStackTrace();
 			}
