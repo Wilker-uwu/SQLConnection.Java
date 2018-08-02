@@ -54,7 +54,8 @@ class _credentials {
 	 * Gathers the connection address for usage.
 	 * @return the URL for connecting to the SQL Server database.
 	 */
-	public String getConnURL() {
+	@Override
+	public String toString() {
 		return this.connURL;
 	}
 	
