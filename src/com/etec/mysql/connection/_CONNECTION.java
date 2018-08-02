@@ -81,7 +81,10 @@ public class _CONNECTION {
 
 		//tenta adquirir uma conexão com o servidor e returna o estado da conexão para '_conn'
 		try {
-			this._conn = DriverManager.getConnection(this.credentials.getConnURL(), this.credentials.getUsername(), this.credentials.getPassword());
+			this._conn = DriverManager.getConnection(
+					this.credentials.getConnURL(),
+					this.credentials.getUsername(),
+					this.credentials.getPassword());
 			System.out.println("Conexão adquirida com MySQL em " +this.credentials.getConnURL() +'\n');
 			
 			//USE {DATABASE} in the connection

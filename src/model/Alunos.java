@@ -5,7 +5,7 @@ public class Alunos {
 	private String endereco = null;
 	private String bairro = null;
 	
-	public Alunos(String nome, String endereco, String bairro) {
+	public Alunos(final String nome, final String endereco, final String bairro) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.bairro = bairro;

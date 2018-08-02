@@ -13,21 +13,23 @@ public class AlunosJdbcDAO {
 		_conn = conn;
 	}
 	
-	public static boolean insert(Alunos aln) throws SQLException {
+	private static void execute(String query) throws SQLException {
+		PreparedStatement pStatement= _conn.prepareStatement(query);
+		pStatement.executeQuery();
+		pStatement.close();
+	}
+	
+	public static void insert(Alunos aln) throws SQLException {
 		String sql = String.format(
 				"INSERT INTO Alunos VALUES ('%s', '%s', '%s');",
 				aln.getNome(), aln.getEndereco(), aln.getBairro());
-		_conn.prepareStatement(sql);
-		return true;
+		execute(sql);
 	}
 	
-	public static boolean delete(Alunos aln) throws SQLException {
+	public static void delete(Alunos aln) throws SQLException {
 		String sql = String.format(
 				"DELETE FROM Alunos AS al WHERE (al.nome = '%s') AND (al.endereco = '%s') AND (bairro = '%s');",
 				aln.getNome(), aln.getEndereco(), aln.getBairro());
-		PreparedStatement statement = _conn.prepareStatement(sql);
-		statement.executeQuery();
-		statement.close();
-		return true;
+		execute(sql);
 	}
 }

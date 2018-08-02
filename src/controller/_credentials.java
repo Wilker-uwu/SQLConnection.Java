@@ -34,7 +34,8 @@ class _credentials {
 	 * 					use <code>null</code> if there is no password needed.
 	 * @param database	is the database to be accessed.
 	 */
-	public _credentials(String hostname, int port, String username, String password, String database) {
+	public _credentials(final String hostname, final int port, final String username,
+			final String password, final String database) {
 		this.hostname = hostname;
 		this.port     = port;
 		this.database = database;
@@ -42,7 +43,7 @@ class _credentials {
 		this.password = password;
 		
 		this.connURL = "jdbc:mysql://" +this.hostname; //server adddress
-		this.connURL += (port>0)?":" +this.port:""; //connection port
+		this.connURL += (port>0)?":" +this.port:""; //if there is a port specified, include the connection port
 		this.connURL += '/' +this.database; //database
 		this.connURL += "?useUnicode=true"; //unicode
 		this.connURL += "&useSSL=true"; //certificate
