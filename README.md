@@ -1,5 +1,5 @@
 # TOO.MySQLConnection
-#### Etec ZL - TI 2Âº mÃ³dulo - TOO
+#### Etec ZL - TI 2º módulo - TOO
 
 One of the last activities i made last semester.  
-//comentÃ¡rios em portuguÃªs
+//comentários em português

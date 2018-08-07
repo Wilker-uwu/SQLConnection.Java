@@ -9,7 +9,7 @@ import model.Alunos;
 public class AlunosJdbcDAO {
 	private static Connection _conn = null;
 	
-	private static void execute(String query) throws SQLException {
+	private static void execute(String query) throws SQLException, NullPointerException {
 		if(_conn == null) {
 			try {
 				_conn = JdbUtil.getConnection();
@@ -17,9 +17,13 @@ public class AlunosJdbcDAO {
 				exp.printStackTrace();
 			}
 		}
-		Statement statement = _conn.createStatement();
-		statement.execute(query);
-		statement.close();
+		try {
+			Statement statement = _conn.createStatement();
+			statement.execute(query);
+			statement.close();
+		} catch (NullPointerException exp) {
+			throw new NullPointerException("Could not find " +Connection.class.getName() +" instance.");
+		}
 		JdbUtil.close();
 	}
 	
