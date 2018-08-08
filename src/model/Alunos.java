@@ -16,7 +16,7 @@ public class Alunos {
 	
 	public Alunos(final int id, final String nome, final String endereco, final String bairro) {
 		this(nome, endereco, bairro);
-		if(id<1) { throw new IllegalArgumentException("id of Aluno cannot be lower then 1."); }
+		if(id<1) { throw new IllegalArgumentException("id cannot be lower then 1."); }
 		this.id = id;
 	}
 	

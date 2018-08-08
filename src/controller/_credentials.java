@@ -1,7 +1,7 @@
 package controller;
 
 /**
- * Esta vlasse segura as credenciais para a conexão com o banco MySQL.
+ * This class holds the credentials necessary for a safe MySQL connection.
  * @author Wilker Santana da Silva
  */
 class _credentials {
