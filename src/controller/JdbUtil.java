@@ -10,7 +10,7 @@ public class JdbUtil {
 	private static Connection _conn = null;
 	final   static _credentials credentials = new _credentials("127.0.0.1", -1, "root", null, "alunos");
 	
-	public static Connection getConnection() throws SQLException, InstantiationException,
+	protected static Connection getConnection() throws SQLException, InstantiationException,
 	IllegalAccessException, ClassNotFoundException {
 		if(_conn != null) {
 			//skip
@@ -25,7 +25,7 @@ public class JdbUtil {
 		return _conn;
 	}
 	
-	public static Connection close() throws SQLException {
+	protected static Connection close() throws SQLException {
 		if(_conn != null) {
 			_conn.close();}
 		return _conn;

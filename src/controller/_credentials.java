@@ -42,11 +42,11 @@ class _credentials {
 		this.username = username;
 		this.password = password;
 		
-		this.connURL = "jdbc:mysql://" +this.hostname; //server adddress
-		this.connURL += (port>0)?":" +this.port:""; //if there is a port specified, include the connection port
+		this.connURL =	"jdbc:mysql://" +this.hostname //server adddress
+						+((port>0)?":" +this.port:""); //if there is a port specified, include the connection port
 		this.connURL += '/' +this.database; //database
-		this.connURL += "?useUnicode=true"; //unicode
-		this.connURL += "&useSSL=true"; //certificate
+		this.connURL += "?useUnicode=true" //unicode
+						+"&useSSL=true"; //certificate
 		this.connURL += "&useJDBCCompliantTimezonShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"; //timezone
 	}
 	
