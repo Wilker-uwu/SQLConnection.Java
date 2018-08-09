@@ -10,17 +10,22 @@ public class JdbUtil {
 	private static Connection _conn = null;
 	final   static _credentials credentials = new _credentials("127.0.0.1", -1, "root", null, "alunos");
 	
-	protected static Connection getConnection() throws SQLException, InstantiationException,
-	IllegalAccessException, ClassNotFoundException {
+	protected static Connection getConnection() throws SQLException, NullPointerException {
 		if(_conn != null) {
 			//skip
 		} else {
-			Class.forName(serverDriverClass).newInstance();
-			_conn = DriverManager.getConnection(
-					credentials.toString(),
-					credentials.getUsername(),
-					credentials.getPassword());
-			debug("succesfully connected to " +credentials.toString());
+			try {
+				Class.forName(serverDriverClass).newInstance();
+				_conn = DriverManager.getConnection(
+						credentials.toString(),
+						credentials.getUsername(),
+						credentials.getPassword());
+				debug("succesfully connected to " +credentials.toString());
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exp) {
+				throw new NullPointerException("An internal error occurred.");
+			} catch (SQLException exp) {
+				throw new SQLException("A connection or internal server error occurred.");
+			}
 		}
 		return _conn;
 	}
