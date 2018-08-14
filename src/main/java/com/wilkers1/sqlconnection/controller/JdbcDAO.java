@@ -10,8 +10,9 @@ import com.wilkers1.sqlconnection.model.Model;
 
 abstract class JdbcDAO {
 	private static Connection _conn = null;
-	private static SecurityException idExp = new SecurityException("The constructor with ID is not intended for data registrations.");
-	private static SecurityException noIdExp = new SecurityException("Cannot delete registry with an unespecified ID. Risk of unintended deletion.");
+	protected static SecurityException idExp = new SecurityException("The constructor with ID is not intended for data registrations.");
+	protected static SecurityException noIdExp = new SecurityException("Cannot delete registry with an unespecified ID. Risk of unintended deletion.");
+	protected static ClassCastException invalidModelExp = new ClassCastException("Invalid Model class received.");
 	
 	protected static void execute(String query) throws SQLException, NullPointerException {
 		if(_conn == null) {
@@ -27,6 +28,6 @@ abstract class JdbcDAO {
 		JdbUtil.close();
 	}
 	
-	public abstract void insert(Model mdl) throws SQLException;
-	public abstract void delete(Model mdl) throws SQLException;
+	protected abstract void insert(Model mdl) throws SQLException;
+	protected abstract void delete(Model mdl) throws SQLException;
 }

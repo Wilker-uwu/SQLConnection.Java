@@ -6,8 +6,9 @@ public class Exec {
 
 	public static void main(String[] args) {
 		try {
-			Pessoa aln = new Pessoa("Sal M�o", "sal@mao.com");
-			aln.getId();
+			Pessoa aln = new Pessoa("Sal Mão", "sal@mao.com");
+			
+			System.out.println("done!");
 		} catch (Exception exp) {
 			exp.printStackTrace();
 		}

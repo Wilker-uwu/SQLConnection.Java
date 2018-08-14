@@ -1,6 +1,7 @@
 package com.wilkers1.sqlconnection.model;
 
 public class Tarefa extends Model{
+	
 	private int id = -1;
 	private String titulo = null;
 	private String desc = null;
@@ -23,7 +24,7 @@ public class Tarefa extends Model{
 			final String prazo, final String prazoInicio,
 			final String prazoTermino, final int metodo) {
 		this(titulo, desc, prazo, prazoInicio, prazoTermino, metodo);
-		if(id<1) { throw new IllegalArgumentException("id cannot be lower then 1."); }
+		if(id<1) { throw idNegativeExp; }
 		this.id = id;
 	}
 	
@@ -34,4 +35,12 @@ public class Tarefa extends Model{
 	public String getPrazoInicio()  { return this.prazoInicio; }
 	public String getPrazoTermino() { return this.prazoTermino; }
 	public int    getMetodo()       { return this.metodo; }
+	
+	public String toString(boolean remove) throws IllegalAccessException {
+		if(this.id==-1) {
+			throw idCastExp;
+		}
+		return null;
+		//TODO complete
+	}
 }
