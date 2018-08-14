@@ -2,7 +2,7 @@ package model;
 
 import java.lang.IllegalArgumentException;
 
-public class Pessoa {
+public class Pessoa extends Model{
 	private int    id = -1;
 	private String nome = null;
 	private String email = null;

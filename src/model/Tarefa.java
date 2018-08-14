@@ -1,6 +1,6 @@
 package model;
 
-public class Tarefa {
+public class Tarefa extends Model{
 	private int id = -1;
 	private String titulo = null;
 	private String desc = null;

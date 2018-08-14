@@ -1,6 +1,6 @@
 package model;
 
-public class RefParticipante {
+public class RefParticipante extends Model{
 	private int tarefa = -1;
 	private int pessoa = -1;
 	

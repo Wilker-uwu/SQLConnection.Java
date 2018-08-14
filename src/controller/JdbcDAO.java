@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import model.Model;
 import model.Pessoa;
+import model.Tarefa;
 
 abstract class JdbcDAO {
 	private static Connection _conn = null;
@@ -27,6 +29,6 @@ abstract class JdbcDAO {
 		JdbUtil.close();
 	}
 	
-	public abstract void insert(Pessoa ppl) throws SQLException;
-	public abstract void delete(Pessoa aln) throws SQLException;
+	public abstract void insert(Model mdl) throws SQLException;
+	public abstract void delete(Model mdl) throws SQLException;
 }
