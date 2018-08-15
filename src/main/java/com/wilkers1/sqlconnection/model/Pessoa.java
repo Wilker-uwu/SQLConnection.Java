@@ -11,7 +11,7 @@ public class Pessoa extends Model{
 			throws IllegalArgumentException {
 		if(nome.length() == 0) {
 			throw new IllegalArgumentException("Name cannot be empty.");
-		} else if(email.length()<4) {
+		} else if(email.length()<4 || !email.contains("@")) {
 			throw new IllegalArgumentException("Invalid or empty email.");
 		}
 		this.nome = nome;
@@ -28,5 +28,6 @@ public class Pessoa extends Model{
 	public String getNome()     { return this.nome; }
 	public String getEmail()    { return this.email; }
 	
-	
+	@Override
+	public String toString() { return String.format("('%s', '%s');", this.nome, this.email); }
 }
