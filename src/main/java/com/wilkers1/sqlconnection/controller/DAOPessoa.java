@@ -12,9 +12,7 @@ class DAOPessoa extends JdbcDAO implements DAOPrepare {
 		if(!(mdl instanceof Pessoa)) { throw invalidModelExp; }
 		Pessoa ppl = (Pessoa)mdl;
 		if(ppl.getId()!=-1) { throw idExp; }
-		String sql = pplInsert +String.format("('%s', '%s');",
-				ppl.getNome(), ppl.getEmail());
-		execute(pplInsert +sql);
+		execute(pplInsert +ppl.toString());
 	}
 	
 	@Override
@@ -22,9 +20,7 @@ class DAOPessoa extends JdbcDAO implements DAOPrepare {
 		if(!(mdl instanceof Pessoa)) { throw invalidModelExp; }
 		Pessoa ppl = (Pessoa)mdl;
 		if(ppl.getId()==-1) { throw noIdExp; }
-		String sql = String.format("(idPessoa = '%d') AND (pessoaNome = '%s') AND (pessoaEmail = '%s');",
-				ppl.getId(), ppl.getNome(), ppl.getEmail());
-		execute(pplDelete +sql);
+		execute(pplDelete +ppl.toString(true));
 	}
 	
 }

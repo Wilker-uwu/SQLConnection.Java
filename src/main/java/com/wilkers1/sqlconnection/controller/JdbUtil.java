@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class JdbUtil {
+class JdbUtil {
 	private static final String serverDriverClass = "com.mysql.cj.jdbc.Driver";
 	
 	private static Connection _conn = null;

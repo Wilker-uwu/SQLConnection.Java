@@ -30,4 +30,15 @@ public class Pessoa extends Model{
 	
 	@Override
 	public String toString() { return String.format("('%s', '%s');", this.nome, this.email); }
+	public String toString(boolean remove) throws IllegalAccessException {
+		if(remove) {
+			if(this.id==-1) {
+				throw idCastExp;
+			} else {
+				return String.format("(idPessoa = %d) AND (pessoaNome = '%s') AND (pessoaEmail = '%s');", this.id, this.nome, this.email); 
+			}
+		} else {
+			return this.toString();
+		}
+	}
 }

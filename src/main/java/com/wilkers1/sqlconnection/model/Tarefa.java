@@ -12,11 +12,11 @@ public class Tarefa extends Model{
 	
 	public Tarefa(final String titulo, final String desc, final String prazo,
 			final String prazoInicio, final String prazoTermino, final int metodo) {
-		this.titulo = "'" +titulo +"'";
-		this.desc = "'" +desc +"'";
-		this.prazo = "'" +prazo +"'";
-		this.prazoInicio = "'" +prazoInicio +"'";
-		this.prazoTermino = "'" +prazoTermino +"'";
+		this.titulo = titulo;
+		this.desc = desc;
+		this.prazo = prazo;
+		this.prazoInicio = prazoInicio;
+		this.prazoTermino = prazoTermino;
 		this.metodo = metodo;
 	}
 	
@@ -37,16 +37,16 @@ public class Tarefa extends Model{
 	public int    getMetodo()       { return this.metodo; }
 	
 	@Override
-	public String toString() {
-		return String.format("(%s, %s, %s, %s, %s, %d);", this.titulo, this.desc, this.prazo, this.prazoInicio, this.prazoTermino, this.metodo);
-	}
+	public String toString() { return String.format("('%s', '%s', '%s', '%s', '%s', %d);", this.titulo, this.desc, this.prazo, this.prazoInicio, this.prazoTermino, this.metodo); }
 	public String toString(boolean remove) throws IllegalAccessException {
-		if(this.id==-1 && remove) {
-			throw idCastExp;
-		} else if(this.id==-1) {
+		if(remove) {
+			if(this.id==-1) {
+				throw idCastExp;
+			} else {
+				return String.format("(idTarefa = %d) AND (tarefaTitulo = '%s') AND (tarefaDesc = '%s') AND  (tarefaPrazo = '%s') AND (tarefaPrazoInicio = '%s') AND (tarefaPrazoTermino = '%s') AND (idMetodo = %d);", this.id, this.titulo, this.desc, this.prazo, this.prazoInicio, this.prazoTermino, this.metodo);
+			}
+		} else {
 			return this.toString();
-		} else if(remove) {
-			return String.format("(idTarefa = %d) AND (tarefaTitulo = %s) AND (tarefaDesc = %s) AND  (tarefaPrazo = '%s') AND (tarefaPrazoInicio = '%s') AND (tarefaPrazoTermino = '%s') AND (idMetodo = %d);", this.id, this.titulo, this.desc, this.prazo, this.prazoInicio, this.prazoTermino, this.metodo);
-		} else { return null; }
+		}
 	}
 }

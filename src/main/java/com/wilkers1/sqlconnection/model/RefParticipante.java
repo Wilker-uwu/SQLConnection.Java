@@ -15,9 +15,11 @@ public class RefParticipante extends Model{
 	public int getTarefa() { return this.tarefa; }
 	public int getPessoa() { return this.pessoa; }
 	
-	public String toString(boolean remove) {
+	@Override
+	public String toString() { return String.format("(%d, %d)", this.getTarefa(), this.getPessoa()); }
+	public String toString(boolean remove) throws IllegalAccessException {
 		return remove?
 				String.format("(idTarefa = %d, idPessoa = %d)", this.getTarefa(), this.getPessoa()):
-				String.format("(%d, '%d')", this.getTarefa(), this.getPessoa());
+				this.toString();
 	}
 }

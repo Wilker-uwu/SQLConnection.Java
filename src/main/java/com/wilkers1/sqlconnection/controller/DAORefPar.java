@@ -12,8 +12,7 @@ class DAORefPar extends JdbcDAO implements DAOPrepare{
 		if(!(mdl instanceof RefParticipante)) { throw invalidModelExp; }
 		RefParticipante ref = (RefParticipante)mdl;
 		if(ref.getPessoa()<1 || ref.getTarefa()<1) { throw idExp; }
-		String sql = String.format("('%s', '%s');", ref.getTarefa(), ref.getPessoa());
-		execute(pplInsert +sql);
+		execute(refInsert +ref.toString());
 	}
 	
 	@Override
@@ -21,8 +20,7 @@ class DAORefPar extends JdbcDAO implements DAOPrepare{
 		if(!(mdl instanceof RefParticipante)) { throw invalidModelExp; }
 		RefParticipante ref = (RefParticipante)mdl;
 		if(ref.getPessoa()==-1 || ref.getTarefa()==-1) { throw noIdExp; }
-		String sql = String.format("(idTarefa = '%d') AND (idPessoa = '%d');",
-				ref.getTarefa(), ref.getPessoa());
-		execute(pplDelete +sql);
+		execute(refDelete +ref.toString(true));
 	}
+	
 }
