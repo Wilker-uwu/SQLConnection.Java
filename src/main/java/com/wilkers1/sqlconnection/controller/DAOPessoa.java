@@ -16,7 +16,7 @@ class DAOPessoa extends JdbcDAO implements DAOPrepare {
 	}
 	
 	@Override
-	public void delete(Model mdl) throws SQLException {
+	public void delete(Model mdl) throws SQLException, NullPointerException, IllegalAccessException {
 		if(!(mdl instanceof Pessoa)) { throw invalidModelExp; }
 		Pessoa ppl = (Pessoa)mdl;
 		if(ppl.getId()==-1) { throw noIdExp; }

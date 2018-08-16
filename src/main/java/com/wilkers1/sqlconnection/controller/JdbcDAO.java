@@ -29,5 +29,5 @@ abstract class JdbcDAO {
 	}
 	
 	protected abstract void insert(Model mdl) throws SQLException;
-	protected abstract void delete(Model mdl) throws SQLException;
+	protected abstract void delete(Model mdl) throws SQLException, NullPointerException, IllegalAccessException;
 }

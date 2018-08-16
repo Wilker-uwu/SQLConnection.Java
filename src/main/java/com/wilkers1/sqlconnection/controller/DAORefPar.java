@@ -16,7 +16,7 @@ class DAORefPar extends JdbcDAO implements DAOPrepare{
 	}
 	
 	@Override
-	public void delete(Model mdl) throws SQLException {
+	public void delete(Model mdl) throws SQLException, NullPointerException, IllegalAccessException {
 		if(!(mdl instanceof RefParticipante)) { throw invalidModelExp; }
 		RefParticipante ref = (RefParticipante)mdl;
 		if(ref.getPessoa()==-1 || ref.getTarefa()==-1) { throw noIdExp; }
