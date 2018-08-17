@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 public class Window extends JFrame{
 	private static final long serialVersionUID = -6247088568170886703L;
 	
@@ -25,7 +27,8 @@ public class Window extends JFrame{
 	protected static int barx = 128;
 	protected static int bary = 24;
 	
-	protected static GridBagLayout bag = new GridBagLayout();
+	protected GridBagLayout bag = new GridBagLayout();
+	protected GridBagConstraints[][] pos = null;
 	
 	public Window(String windowName, int buildType) {
 		super(windowName);
@@ -34,21 +37,23 @@ public class Window extends JFrame{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pane.setLayout(bag);
-		buildLayout(buildType);
+		buildLayout(this.bag, buildType);
 	}
 	
 	/**
 	 * TODO complete window building
-	 * 
+	 * Prepares a layout according to the field layout specified.
 	 * @param layout
 	 * @param fields
 	 * @return
 	 */
-	private static GridBagConstraints[][] buildLayout(GridBagLayout layout, int fields) {
-		GridBagConstraints[][] pos = null;
+	protected GridBagConstraints[][] buildLayout(GridBagLayout layout, int fields) {
 		switch(fields) {
 			case PESSOA | REF_PARTICIPANTE: {
 				pos = new GridBagConstraints[][] {
+						{
+							new GridBagConstraints(),
+						},
 						{
 							new GridBagConstraints(),
 							new GridBagConstraints()
@@ -56,34 +61,38 @@ public class Window extends JFrame{
 						{
 							new GridBagConstraints(),
 							new GridBagConstraints()
-						}
+						},
+						{
+							new GridBagConstraints(),
+						},
 				};
 				
-				layout.columnWeights = new double[] {0,0,0,1,0};
-				layout.rowWeights    = new double[] {1,0,0,0,1};
+				//space,	field,	gap,	field,field,	space
+				layout.columnWeights = new double[] {0,0,0,0,1,0};
+				//space,	field, gap, field, gap, field, gap, field,	space
+				layout.rowWeights    = new double[] {1,0,0,0,0,0,1};
 				layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
 				layout.rowHeights    = new int[] {borderBoxSize, bary, ygap, bary, borderBoxSize};
-				pos[0][0].gridx = 1;	pos[0][0].gridy = 1;
-				pos[0][1].gridx = 1;	pos[0][1].gridy = 3;
-				pos[1][0].gridx = 3;	pos[1][0].gridy = 1;
-				pos[1][1].gridx = 3;	pos[1][1].gridy = 3;
+				for(int posx=1; posx<pos.length; posx++) {
+					
+				}
 				
 				for(GridBagConstraints[] posy : pos) {
 					for(GridBagConstraints posx : posy) {
 						posx.fill = GridBagConstraints.BOTH;
 					}
 				}
-			}
+			};break;
+			
+			case TAREFA: {
+				//TODO complete
+			};break;
+			
 		}
 		return pos;
 	}
 	
 	public static void main(String...args) {
-		Window w = new Window("");
-		w.pane.add(new JLabel("aa"), lbl0);
-		w.pane.add(new JLabel("bb"), lbl1);
-
-		w.pane.add(new JTextField("aa"), txt0);
-		w.pane.add(new JTextField("aa"), txt1);
+		new Window("", 0);
 	}
 }

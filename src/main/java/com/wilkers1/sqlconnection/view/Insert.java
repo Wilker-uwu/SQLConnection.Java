@@ -18,10 +18,10 @@ public class Insert extends Window{
 	
 	public Insert(String windowName, int fields) {
 		super(windowName, fields);
-		pane.add(lblNome, lbl0);
-		pane.add(lblEmail, lbl1);
-		pane.add(txtNome, txt0);
-		pane.add(txtEmail, txt1);
+		this.pane.add(lblNome,  this.pos[0][0]);
+		this.pane.add(lblEmail, this.pos[0][1]);
+		this.pane.add(txtNome,  this.pos[1][0]);
+		this.pane.add(txtEmail, this.pos[1][1]);
 	}
 	
 	public static void main(String...args) {
