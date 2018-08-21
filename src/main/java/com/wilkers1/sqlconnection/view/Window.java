@@ -1,7 +1,6 @@
 package com.wilkers1.sqlconnection.view;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -20,15 +19,15 @@ public class Window extends JFrame{
 	public static final int TAREFA = 0x70;
 	public static final int REF_PARTICIPANTE = Window.PESSOA; 
 	
-	protected static int xgap = 4;
-	protected static int ygap = 8;
-	protected static int borderBoxSize = 40;
-	protected static int lblx = 48;
-	protected static int barx = 128;
-	protected static int bary = 24;
+	private static int xgap = 4;
+	private static int ygap = 8;
+	private static int borderBoxSize = 40;
+	private static int lblx = 48;
+	private static int barx = 128;
+	private static int bary = 24;
 	
 	protected GridBagLayout bag = new GridBagLayout();
-	protected GridBagConstraints[][] pos = null;
+	protected GridBagConstraints[][] field = null;
 	
 	public Window(String windowName, int buildType) {
 		super(windowName);
@@ -37,7 +36,7 @@ public class Window extends JFrame{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pane.setLayout(bag);
-		buildLayout(this.bag, buildType);
+		this.field = buildLayout(this.bag, buildType);
 	}
 	
 	/**
@@ -47,7 +46,8 @@ public class Window extends JFrame{
 	 * @param fields
 	 * @return
 	 */
-	protected GridBagConstraints[][] buildLayout(GridBagLayout layout, int fields) {
+	protected static GridBagConstraints[][] buildLayout(GridBagLayout layout, int fields) {
+		GridBagConstraints[][] pos = null;
 		switch(fields) {
 			case PESSOA | REF_PARTICIPANTE: {
 				pos = new GridBagConstraints[][] {
@@ -72,7 +72,10 @@ public class Window extends JFrame{
 				//space,	field, gap, field, gap, field, gap, field,	space
 				layout.rowWeights    = new double[] {1,0,0,0,0,0,1};
 				layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
-				layout.rowHeights    = new int[] {borderBoxSize, bary, ygap, bary, borderBoxSize};
+				layout.rowHeights    = new int[] {borderBoxSize,
+						bary, ygap,
+						bary, ygap,
+						bary, borderBoxSize};
 				for(int posx=1; posx<pos.length; posx++) {
 					
 				}
@@ -85,7 +88,63 @@ public class Window extends JFrame{
 			};break;
 			
 			case TAREFA: {
-				//TODO complete
+				pos = new GridBagConstraints[][] {
+					{
+						new GridBagConstraints(),
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+						new GridBagConstraints()
+					},
+					{
+						new GridBagConstraints(),
+					},
+				};
+				
+				//space,	field,	gap,	field,field,	space
+				layout.columnWeights = new double[] {0,0,0,0,1,0};
+				//space,	field, gap, field, gap, field, gap, field,	space
+				layout.rowWeights    = new double[] {1,0,0,0,0,0,1};
+				
+				//||label|field||
+				layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
+				
+				layout.rowHeights    = new int[] {borderBoxSize,
+						bary, ygap, //selection
+						bary, ygap, //field
+						bary, ygap, //field
+						bary, ygap, //field
+						bary, ygap, //field
+						bary, borderBoxSize}; //field (last)
+				for(int posx=1; posx<pos.length; posx++) {
+					
+				}
+				
+				for(GridBagConstraints[] posy : pos) {
+					for(GridBagConstraints posx : posy) {
+						posx.fill = GridBagConstraints.BOTH;
+					}
+				}
 			};break;
 			
 		}

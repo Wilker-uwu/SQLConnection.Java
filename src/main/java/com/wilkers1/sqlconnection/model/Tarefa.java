@@ -8,7 +8,7 @@ public class Tarefa extends Model{
 	private String prazo = null;
 	private String prazoInicio = null;
 	private String prazoTermino = null;
-	private int metodo = -1;
+	private int    metodo = -1;
 	
 	public Tarefa(final String titulo, final String desc, final String prazo,
 			final String prazoInicio, final String prazoTermino, final int metodo) {
