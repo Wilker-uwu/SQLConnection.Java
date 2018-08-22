@@ -29,122 +29,74 @@ public class Window extends JFrame{
 	protected GridBagLayout bag = new GridBagLayout();
 	protected GridBagConstraints[][] field = null;
 	
-	public Window(String windowName, int buildType) {
+	public Window(String windowName) {
 		super(windowName);
 		this.setSize(480, 360);
-		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pane.setLayout(bag);
-		this.field = buildLayout(this.bag, buildType);
 	}
 	
 	/**
 	 * TODO complete window building
 	 * Prepares a layout according to the field layout specified.
-	 * @param layout
-	 * @param fields
+	 * @param layout is the GridBagLayout used to prepare the spaces.
+	 * @param fieldSetup is the id of the field setup to insert.
 	 * @return
 	 */
-	protected static GridBagConstraints[][] buildLayout(GridBagLayout layout, int fields) {
-		GridBagConstraints[][] pos = null;
-		switch(fields) {
+	public static GridBagConstraints[][] buildLayout(GridBagLayout layout, int fieldSetup) {
+		GridBagConstraints[][] pos = new GridBagConstraints[ //sets up the size of the layout
+															fieldSetup==PESSOA?4: //if PESSOA is selected
+															fieldSetup==TAREFA?8:2 //otherwise if TAREFA is selected, otherwise 2.
+															][0];
+		if(pos.length==2) { throw new IllegalArgumentException("Invalid setup."); }
+		
+		for(GridBagConstraints[] posy : pos) { //repeats for every row of constraints...
+			posy = new GridBagConstraints[] { //set this position to be of two constraints
+					new GridBagConstraints(),
+					new GridBagConstraints(),
+			};
+			for(GridBagConstraints posx : posy) { //repeats for every field...
+				posx.fill = GridBagConstraints.BOTH; //every field will will its entire constraint space.
+			}
+			posy[1].gridwidth = 2;
+		}
+		
+		//First and last rows...
+		pos[0] = new GridBagConstraints[] {new GridBagConstraints()}; //the first row will have one field.
+		pos[1][1].gridwidth = 1; //the second field of the second row will will one space, instead of 2 like the others.
+		pos[pos.length-1] = new GridBagConstraints[] {new GridBagConstraints()}; //the last row will have one field.
+		pos[pos.length-1][0].gridwidth = 4; //the field of the last row will fill most of the horizontal space.
+		
+		//space,	field,	gap,	field,field,	space
+		layout.columnWeights = new double[] {0,0,0,0,1,0};
+		//||label|field||
+		layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
+		
+		switch(fieldSetup) {
 			case PESSOA | REF_PARTICIPANTE: {
-				pos = new GridBagConstraints[][] {
-						{
-							new GridBagConstraints(),
-						},
-						{
-							new GridBagConstraints(),
-							new GridBagConstraints()
-						},
-						{
-							new GridBagConstraints(),
-							new GridBagConstraints()
-						},
-						{
-							new GridBagConstraints(),
-						},
-				};
-				
-				//space,	field,	gap,	field,field,	space
-				layout.columnWeights = new double[] {0,0,0,0,1,0};
-				//space,	field, gap, field, gap, field, gap, field,	space
-				layout.rowWeights    = new double[] {1,0,0,0,0,0,1};
-				layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
-				layout.rowHeights    = new int[] {borderBoxSize,
-						bary, ygap,
-						bary, ygap,
-						bary, borderBoxSize};
-				for(int posx=1; posx<pos.length; posx++) {
-					
-				}
-				
-				for(GridBagConstraints[] posy : pos) {
-					for(GridBagConstraints posx : posy) {
-						posx.fill = GridBagConstraints.BOTH;
-					}
-				}
+				//---title field||field||field||panel field---
+				layout.rowWeights	= new double[] {1,0,0,0,0,0,1};
+				layout.rowHeights	= new int[] {borderBoxSize,
+						bary, ygap, //title
+						bary, ygap, //selection
+						bary, ygap, //field 0
+						bary, ygap, //field 1
+						borderBoxSize};
 			};break;
 			
 			case TAREFA: {
-				pos = new GridBagConstraints[][] {
-					{
-						new GridBagConstraints(),
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-						new GridBagConstraints()
-					},
-					{
-						new GridBagConstraints(),
-					},
-				};
+				double[] rowWeights = new double[19]; //creates a new set of row weights
+				for(@SuppressWarnings("unused") double row : rowWeights) { row = 0; } //sets every row to 0
+				rowWeights[0]= rowWeights[18] = 1; //first and last rows are 1
+				layout.rowWeights = rowWeights; //sets up row weights
 				
-				//space,	field,	gap,	field,field,	space
-				layout.columnWeights = new double[] {0,0,0,0,1,0};
-				//space,	field, gap, field, gap, field, gap, field,	space
-				layout.rowWeights    = new double[] {1,0,0,0,0,0,1};
-				
-				//||label|field||
-				layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
-				
-				layout.rowHeights    = new int[] {borderBoxSize,
-						bary, ygap, //selection
-						bary, ygap, //field
-						bary, ygap, //field
-						bary, ygap, //field
-						bary, ygap, //field
-						bary, borderBoxSize}; //field (last)
-				for(int posx=1; posx<pos.length; posx++) {
-					
+				int[] rowHeights = new int[20]; //creates a set of row weights
+				for(int i=0; i<20; i++) { //repeats for every row...
+					//if it's the first or last row, borderBoxSize. otherwise: if odd number, bar. if not, gap.
+					rowHeights[i] = (i==0||i==19)?borderBoxSize:(i%2==0)?bary:ygap;
 				}
-				
-				for(GridBagConstraints[] posy : pos) {
-					for(GridBagConstraints posx : posy) {
-						posx.fill = GridBagConstraints.BOTH;
-					}
-				}
+				layout.rowHeights = rowHeights; //sets up the row heights
 			};break;
 			
 		}
@@ -152,6 +104,6 @@ public class Window extends JFrame{
 	}
 	
 	public static void main(String...args) {
-		new Window("", 0);
+		new Window("").setLocationRelativeTo(null);
 	}
 }
