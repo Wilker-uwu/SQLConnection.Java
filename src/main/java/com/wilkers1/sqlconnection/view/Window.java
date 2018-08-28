@@ -84,65 +84,63 @@ public class Window extends JFrame{
 									 ][1];
 		if(pos.length==0) { throw new IllegalArgumentException("Invalid setup."); }
 		
-		for(int row=1; row<pos.length; row++) {
-			pos[row] = new GridBagConstraints[] { //set this position to be of two constraints
-					new GridBagConstraints() {
-						{
-							this.fill = GridBagConstraints.BOTH;
-							this.gridx = 1;
-						}
-					},
-					new GridBagConstraints() {
-						{
-							this.fill = GridBagConstraints.BOTH;
-							this.gridx = 3;
-							this.gridwidth = 2;
-						}
-					},
-			};
-			for(GridBagConstraints posx : pos[row]) {
-				posx.gridy = row+2;
+		for(int row=0; row<pos.length; row++) { //for every row of usable fields there are...
+			if(row==(0^pos.length-1)) { //if this row is either the first or the last...
+				pos[row] = new GridBagConstraints[] { //this row will only have one usable field
+						new GridBagConstraints() {
+							{
+								this.gridwidth = 4; //...that occupies the whole row
+							} //endInit
+						} //endInstance
+				};
+				pos[row][0].gridx = 1; //x position
+				pos[row][0].gridy = (row==0)?1:0; //if this is the first row, sets up the margin from the window border.
+				continue;
+			} else {
+				pos[row] = new GridBagConstraints[] { //set this position to be of two constraints
+						new GridBagConstraints() {
+							{
+								this.fill = GridBagConstraints.BOTH;
+								this.gridx = 1;
+							}
+						},
+						new GridBagConstraints() {
+							{
+								this.fill = GridBagConstraints.BOTH;
+								this.gridx = 3;
+								this.gridwidth = 2;
+							}
+						},
+				};
 			}
 		}
 		
-		//First and last rows...
-		pos[0] = new GridBagConstraints[] {new GridBagConstraints()}; //the first row will have one field.
-		pos[1][1].gridwidth = 1; //the second field of the second row will will one space, instead of 2 like the others.
-		pos[pos.length-1] = new GridBagConstraints[] {new GridBagConstraints()}; //the last row will have one field.
-		pos[pos.length-1][0].gridwidth = 4; //the field of the last row will fill most of the horizontal space.
+		for(GridBagConstraints[] posy : pos) { //for every constraint array in the 'pos' array...
+			int newPos = posy[0].gridy +2; //the newer fields will be localized at two fields bellow the previous one.
+			for(GridBagConstraints posx : posy) { //for every field in this row...
+				posx.gridy = newPos; //sets up the new position*
+			}
+			// * The first position is set up in the first 'for' loop as the title field,
+			//   where it sets up a margin from the window border.
+		}
 		
 		//space,	field,	gap,	field,field,	space
 		layout.columnWeights = new double[] {0,0,0,0,1,0};
-		//||label|field||
-		layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx,  borderBoxSize};
+		//||label|field-field||
+		layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx, barx,  borderBoxSize};
 		
-		switch(fieldSetup) {
-			case PESSOA | REF_PARTICIPANTE: {
-				//---title field||field||field||panel field---
-				layout.rowWeights	= new double[] {1,0,0,0,0,0,1};
-				layout.rowHeights	= new int[] {borderBoxSize,
-						bary, ygap, //title
-						bary, ygap, //selection
-						bary, ygap, //field 0
-						bary, ygap, //field 1
-						borderBoxSize};
-			};break;
-			
-			case TAREFA: {
-				double[] rowWeights = new double[19]; //creates a new set of row weights
-				for(@SuppressWarnings("unused") double row : rowWeights) { row = 0; } //sets every row to 0
-				rowWeights[0]= rowWeights[18] = 1; //first and last rows are 1
-				layout.rowWeights = rowWeights; //sets up row weights
-				
-				int[] rowHeights = new int[20]; //creates a set of row weights
-				for(int i=0; i<20; i++) { //repeats for every row...
-					//if it's the first or last row, borderBoxSize. otherwise: if odd number, bar. if not, gap.
-					rowHeights[i] = (i==0||i==19)?borderBoxSize:(i%2==0)?bary:ygap;
-				}
-				layout.rowHeights = rowHeights; //sets up the row heights
-			};break;
-			
+		double[] rowWeights = new double[pos.length*2 +1]; //creates a new set of row weights
+		for(double row : rowWeights) { row = 0; } //sets every row to 0
+		rowWeights[0]= rowWeights[rowWeights.length-1] = 1; //first and last rows are 1
+		layout.rowWeights = rowWeights; //sets up row weights
+		
+		int[] rowHeights = new int[pos.length*2 +1]; //creates a set of row weights
+		for(int i=0; i<pos.length*2 +1; i++) { //repeats for every row...
+			//if it's the first or last row, borderBoxSize. otherwise: if odd number, bar. if not, gap.
+			rowHeights[i] = (i==0||i==19)?borderBoxSize:(i%2==0)?bary:ygap;
 		}
+		layout.rowHeights = rowHeights; //sets up the row heights
+		
 		return pos;
 	}
 	
