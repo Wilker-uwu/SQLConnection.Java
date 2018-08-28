@@ -16,6 +16,9 @@ import javax.swing.text.MaskFormatter;
 @SuppressWarnings("serial")
 public class Insert extends Window {
 	
+	/**
+	 * {@link JPanel} instance used for having fields for creating instances of {@link Pessoa}
+	 */
 	private class Per extends JPanel {
 		/** Constraint arrays for setting up the fields. */
 		protected GridBagConstraints[][] field = null;
@@ -48,6 +51,9 @@ public class Insert extends Window {
 		}
 	}
 	
+	/**
+	 * {@link JPanel} instance used for having fields for creating instances of {@link RefParticipante}
+	 */
 	private class Tar extends JPanel {
 		/** Constraint arrays for setting up the fields. */
 		protected GridBagConstraints[][] field = null;

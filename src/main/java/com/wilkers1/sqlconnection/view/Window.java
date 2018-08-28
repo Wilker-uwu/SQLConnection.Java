@@ -5,8 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
@@ -59,23 +57,30 @@ public class Window extends JFrame{
 	 * another constraint for a new panel for the action buttons.</p>
 	 * 
 	 * <code>
-	 * [----TITLE----]</br>
-	 * [LABEL]-[FIELD]</br>
-	 * [LABEL]-[FIELD]</br>
-	 * [LABEL]-[FIELD]</br>
-	 * .</br>
-	 * .</br>
+	 * |||||||||||||||||<br/>
+	 * |[----TITLE----]|<br/>
+	 * |[LABEL]-[FIELD]|<br/>
+	 * |[LABEL]-[FIELD]|<br/>
+	 * |[LABEL]-[FIELD]|<br/>
+	 * |[----PANEL----]|<br/>
+	 * |||||||||||||||||<br/>
+	 * .<br/>
+	 * .<br/>
 	 * [BUTTON__PANEL]</br>
 	 * </code></br>
 	 * 
 	 * @param layout is the GridBagLayout used to prepare the spaces.
 	 * @param fieldSetup is the id of the field setup to insert.
-	 * @return
+	 * @return	an array of arrays of <code>GridBagConstraints</code>,
+	 * 			just in case the instance passed as the parameter is not a
+	 * 			pre-existing variable.
+	 * @author WilkerS1
 	 */
+	@SuppressWarnings("serial")
 	public static GridBagConstraints[][] buildLayout(GridBagConstraints[][] pos, GridBagLayout layout, int fieldSetup) {
 		pos = new GridBagConstraints[ //sets up the size of the layout
 									 fieldSetup==PESSOA?5: //if PESSOA is selected
-									 fieldSetup==TAREFA?8:0 //otherwise if TAREFA is selected, otherwise 2.
+									 fieldSetup==TAREFA?9:0 //otherwise if TAREFA is selected, otherwise 2.
 									 ][1];
 		if(pos.length==0) { throw new IllegalArgumentException("Invalid setup."); }
 		
@@ -85,18 +90,19 @@ public class Window extends JFrame{
 						{
 							this.fill = GridBagConstraints.BOTH;
 							this.gridx = 1;
-							this.gridy = row+2;
 						}
 					},
 					new GridBagConstraints() {
 						{
 							this.fill = GridBagConstraints.BOTH;
 							this.gridx = 3;
-							this.gridy = row+2;
 							this.gridwidth = 2;
 						}
 					},
 			};
+			for(GridBagConstraints posx : pos[row]) {
+				posx.gridy = row+2;
+			}
 		}
 		
 		//First and last rows...
