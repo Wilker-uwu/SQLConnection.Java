@@ -81,47 +81,24 @@ public class Window extends JFrame{
 		pos = new GridBagConstraints[ //sets up the size of the layout
 									 fieldSetup==PESSOA?5: //if PESSOA is selected
 									 fieldSetup==TAREFA?9:0 //otherwise if TAREFA is selected, otherwise 2.
-									 ][1];
+									 ][2];
 		if(pos.length==0) { throw new IllegalArgumentException("Invalid setup."); }
 		
-		for(int row=0; row<pos.length; row++) { //for every row of usable fields there are...
-			if(row==(0^pos.length-1)) { //if this row is either the first or the last...
-				pos[row] = new GridBagConstraints[] { //this row will only have one usable field
-						new GridBagConstraints() {
-							{
-								this.gridwidth = 4; //...that occupies the whole row
-							} //endInit
-						} //endInstance
-				};
-				pos[row][0].gridx = 1; //x position
-				pos[row][0].gridy = (row==0)?1:0; //if this is the first row, sets up the margin from the window border.
-				continue;
-			} else {
-				pos[row] = new GridBagConstraints[] { //set this position to be of two constraints
-						new GridBagConstraints() {
-							{
-								this.fill = GridBagConstraints.BOTH;
-								this.gridx = 1;
-							}
-						},
-						new GridBagConstraints() {
-							{
-								this.fill = GridBagConstraints.BOTH;
-								this.gridx = 3;
-								this.gridwidth = 2;
-							}
-						},
-				};
+		for(int row=0; row<pos.length; row++) {
+			if(row==(0|pos.length-1)) {
+				pos[row] =	new GridBagConstraints[] {
+								new GridBagConstraints()
+							};
 			}
-		}
-		
-		for(GridBagConstraints[] posy : pos) { //for every constraint array in the 'pos' array...
-			int newPos = posy[0].gridy +2; //the newer fields will be localized at two fields bellow the previous one.
-			for(GridBagConstraints posx : posy) { //for every field in this row...
-				posx.gridy = newPos; //sets up the new position*
+			
+			boolean isEntryField =false;
+			for(GridBagConstraints posx : pos[row]) {
+				posx = new GridBagConstraints();
+				posx.gridx = isEntryField?1:3;
+				posx.gridy = row+2;
+				posx.gridwidth = isEntryField?1:2;
+				isEntryField = isEntryField?false:true;
 			}
-			// * The first position is set up in the first 'for' loop as the title field,
-			//   where it sets up a margin from the window border.
 		}
 		
 		//space,	field,	gap,	field,field,	space
@@ -129,15 +106,17 @@ public class Window extends JFrame{
 		//||label|field-field||
 		layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx, barx,  borderBoxSize};
 		
+		//ROW WEIGHTS
 		double[] rowWeights = new double[pos.length*2 +1]; //creates a new set of row weights
 		for(double row : rowWeights) { row = 0; } //sets every row to 0
-		rowWeights[0]= rowWeights[rowWeights.length-1] = 1; //first and last rows are 1
+		rowWeights[0] = rowWeights[rowWeights.length-1] = 1; //first and last rows are 1
 		layout.rowWeights = rowWeights; //sets up row weights
-		
+		//ROW HEIGHTS
 		int[] rowHeights = new int[pos.length*2 +1]; //creates a set of row weights
-		for(int i=0; i<pos.length*2 +1; i++) { //repeats for every row...
-			//if it's the first or last row, borderBoxSize. otherwise: if odd number, bar. if not, gap.
-			rowHeights[i] = (i==0||i==19)?borderBoxSize:(i%2==0)?bary:ygap;
+		boolean isField=false;
+		for(int row : rowHeights) { //repeats for every row...
+			row = isField?bary:ygap; //if it's a field row, bar size. otherwise y space gap.
+			isField = !isField; //toggles 'isField'
 		}
 		layout.rowHeights = rowHeights; //sets up the row heights
 		
