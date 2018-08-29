@@ -84,21 +84,20 @@ public class Window extends JFrame{
 									 ][2];
 		if(pos.length==0) { throw new IllegalArgumentException("Invalid setup."); }
 		
-		for(int row=0; row<pos.length; row++) {
-			if(row==(0|pos.length-1)) {
-				pos[row] =	new GridBagConstraints[] {
-								new GridBagConstraints()
-							};
+		for(int row=0; row<pos.length; row++) { //repeats for every array entry in the array...
+			if(row==0 || row==pos.length-1) { //if it's the first or last row...
+				pos[row] =	new GridBagConstraints[] { new GridBagConstraints() }; //this array will have only one entry.
 			}
 			
-			boolean isEntryField =false;
 			for(GridBagConstraints posx : pos[row]) {
 				posx = new GridBagConstraints();
-				posx.gridx = isEntryField?1:3;
 				posx.gridy = row+2;
-				posx.gridwidth = isEntryField?1:2;
-				isEntryField = isEntryField?false:true;
 			}
+			
+			pos[row][0].gridx = 1;
+			if(pos[row].length==1) { continue; }
+			pos[row][1].gridx = 3;
+			pos[row][1].gridwidth = 2;
 		}
 		
 		//space,	field,	gap,	field,field,	space
