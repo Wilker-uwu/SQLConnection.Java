@@ -3,6 +3,7 @@ package com.wilkers1.sqlconnection.view;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -14,9 +15,9 @@ public class Window extends JFrame{
 	protected Container pane = this.getContentPane();
 	
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
-	public static final int PESSOA = 0x20;
+	public static final int PESSOA = 2 +2;
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
-	public static final int TAREFA = 0x70;
+	public static final int TAREFA = 7 +2;
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
 	public static final int REF_PARTICIPANTE = Window.PESSOA; 
 	
@@ -70,45 +71,40 @@ public class Window extends JFrame{
 	 * </code></br>
 	 * 
 	 * @param layout is the GridBagLayout used to prepare the spaces.
-	 * @param fieldSetup is the id of the field setup to insert.
+	 * @param fieldCount is the ammount of fields to create
 	 * @return	an array of arrays of <code>GridBagConstraints</code>,
 	 * 			just in case the instance passed as the parameter is not a
 	 * 			pre-existing variable.
 	 * @author WilkerS1
 	 */
-	@SuppressWarnings("serial")
-	public static GridBagConstraints[][] buildLayout(GridBagConstraints[][] pos, GridBagLayout layout, int fieldSetup) {
-		pos = new GridBagConstraints[ //sets up the size of the layout
-									 fieldSetup==PESSOA?5: //if PESSOA is selected
-									 fieldSetup==TAREFA?9:0 //otherwise if TAREFA is selected, otherwise 2.
-									 ][2];
-		if(pos.length==0) { throw new IllegalArgumentException("Invalid setup."); }
-		
-		for(int row=0; row<pos.length; row++) { //repeats for every array entry in the array...
-			if(row==0 || row==pos.length-1) { //if it's the first or last row...
-				pos[row] =	new GridBagConstraints[] { new GridBagConstraints() }; //this array will have only one entry.
-			}
-			
-			for(GridBagConstraints posx : pos[row]) {
-				posx = new GridBagConstraints();
-				posx.gridy = row+2;
-			}
-			
-			pos[row][0].gridx = 1;
-			if(pos[row].length==1) { continue; }
-			pos[row][1].gridx = 3;
-			pos[row][1].gridwidth = 2;
-		}
+	public static GridBagConstraints[][] buildLayout(GridBagConstraints[][] pos, GridBagLayout layout, int fieldCount) {
+		if(fieldCount<1) { throw new IllegalArgumentException("Invalid setup."); }
+		pos = new GridBagConstraints[fieldCount][2];
 		
 		//space,	field,	gap,	field,field,	space
 		layout.columnWeights = new double[] {0,0,0,0,1,0};
 		//||label|field-field||
 		layout.columnWidths  = new int[] {borderBoxSize, lblx,  xgap, barx, barx,  borderBoxSize};
 		
+		//ROW HEIGHTS
+		layout.rowHeights = fieldCount==1?
+				new int[] {borderBoxSize, bary, borderBoxSize}:
+				new int[fieldCount+(fieldCount-1)+2];
 		//ROW WEIGHTS
+		layout.rowWeights = new double[layout.rowHeights.length]; //same array size as rowHeights
+		for(double row : layout.rowWeights) { row = 0; } //sets every row to 0
+		layout.rowWeights[0] = layout.rowWeights[layout.rowWeights.length-1] = 1; //first and last rows are 1
+		
+		//if there is more than 1 field
+		if(fieldCount != 3) {
+			for(int row=0; row<layout.rowHeights.length; row++) {
+				layout.rowHeights[row] = row%2==0?ygap:barx;
+			}
+			layout.rowHeights[0] = layout.rowHeights[layout.rowHeights.length-1] = borderBoxSize;
+		}
+		
+		/*
 		double[] rowWeights = new double[pos.length*2 +1]; //creates a new set of row weights
-		for(double row : rowWeights) { row = 0; } //sets every row to 0
-		rowWeights[0] = rowWeights[rowWeights.length-1] = 1; //first and last rows are 1
 		layout.rowWeights = rowWeights; //sets up row weights
 		//ROW HEIGHTS
 		int[] rowHeights = new int[pos.length*2 +1]; //creates a set of row weights
@@ -118,7 +114,7 @@ public class Window extends JFrame{
 			isField = !isField; //toggles 'isField'
 		}
 		layout.rowHeights = rowHeights; //sets up the row heights
-		
+		*/
 		return pos;
 	}
 	

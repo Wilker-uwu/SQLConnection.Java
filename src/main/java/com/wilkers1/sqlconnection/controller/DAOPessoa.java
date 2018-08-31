@@ -2,7 +2,6 @@ package com.wilkers1.sqlconnection.controller;
 
 import java.sql.SQLException;
 
-import com.wilkers1.sqlconnection.model.Model;
 import com.wilkers1.sqlconnection.model.Pessoa;
 
 class DAOPessoa extends JdbcDAO implements DAOPrepare {

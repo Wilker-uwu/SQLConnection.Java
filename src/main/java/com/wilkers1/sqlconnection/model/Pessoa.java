@@ -2,6 +2,8 @@ package com.wilkers1.sqlconnection.model;
 
 import java.lang.IllegalArgumentException;
 
+import com.wilkers1.sqlconnection.controller.Model;
+
 public class Pessoa extends Model{
 	private int    id = -1;
 	private String nome = null;

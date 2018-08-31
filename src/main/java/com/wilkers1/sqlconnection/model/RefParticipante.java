@@ -1,5 +1,7 @@
 package com.wilkers1.sqlconnection.model;
 
+import com.wilkers1.sqlconnection.controller.Model;
+
 public class RefParticipante extends Model{
 	private int tarefa = -1;
 	private int pessoa = -1;

@@ -1,6 +1,6 @@
 package com.wilkers1.sqlconnection.view;
 
-import com.wilkers1.sqlconnection.model.Model;
+import com.wilkers1.sqlconnection.controller.Model;
 import com.wilkers1.sqlconnection.model.Pessoa;
 
 public class Exec {

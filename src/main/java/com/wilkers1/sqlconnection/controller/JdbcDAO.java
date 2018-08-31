@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.wilkers1.sqlconnection.model.Model;
-
 abstract class JdbcDAO {
 	private static Connection _conn = null;
 	protected static SecurityException idExp = new SecurityException("The constructor with ID is not intended for data registrations.");

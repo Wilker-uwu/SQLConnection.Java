@@ -1,5 +1,7 @@
 package com.wilkers1.sqlconnection.model;
 
+import com.wilkers1.sqlconnection.controller.Model;
+
 public class Tarefa extends Model{
 	
 	private int id = -1;

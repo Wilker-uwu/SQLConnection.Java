@@ -1,7 +1,13 @@
 package com.wilkers1.sqlconnection.view;
 
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -12,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.MaskFormatter;
+
+import com.wilkers1.sqlconnection.controller.Model;
+import com.wilkers1.sqlconnection.model.Pessoa;
+import com.wilkers1.sqlconnection.model.Tarefa;
 
 @SuppressWarnings("serial")
 public class Insert extends Window {
@@ -90,18 +100,18 @@ public class Insert extends Window {
 			this.add(cmbEntity, this.field[1][1]);
 			
 			//fields setup
-			this.add(lblTitulo,       this.field[2][0]); //labels
-			this.add(lblDesc,         this.field[3][0]);
-			this.add(lblPrazo,        this.field[4][0]);
-			this.add(lblPrazoInicio,  this.field[5][0]);
-			this.add(lblPrazoTermino, this.field[6][0]);
-			this.add(lblMetodo,       this.field[7][0]);
-			this.add(txtTitulo,       this.field[2][1]); //fields
-			this.add(scrDesc,         this.field[3][1]);
-			this.add(txtPrazo,        this.field[4][1]);
-			this.add(txtPrazoInicio,  this.field[5][1]);
-			this.add(txtPrazoTermino, this.field[6][1]);
-			this.add(cmbMetodo,       this.field[7][1]);
+			this.add(this.lblTitulo,       this.field[2][0]); //labels
+			this.add(this.lblDesc,         this.field[3][0]);
+			this.add(this.lblPrazo,        this.field[4][0]);
+			this.add(this.lblPrazoInicio,  this.field[5][0]);
+			this.add(this.lblPrazoTermino, this.field[6][0]);
+			this.add(this.lblMetodo,       this.field[7][0]);
+			this.add(this.txtTitulo,       this.field[2][1]); //fields
+			this.add(this.scrDesc,         this.field[3][1]);
+			this.add(this.txtPrazo,        this.field[4][1]);
+			this.add(this.txtPrazoInicio,  this.field[5][1]);
+			this.add(this.txtPrazoTermino, this.field[6][1]);
+			this.add(this.cmbMetodo,       this.field[7][1]);
 			
 		}
 	}
@@ -111,10 +121,15 @@ public class Insert extends Window {
 	/** Entity selector combo box, for switching between panels */
 	private JComboBox<String> cmbEntity = new JComboBox<String>(new String[] {"Pessoa", "Tarefa", "Participantes"});
 	
+	private Per perPanel = new Per();
+	private Tar tarPanel = new Tar();
+	
 	/** JPanel instance for holding the action buttons */
 	private JPanel paneBtn = new JPanel(false);
 	/** Registration button for the database */
 	private JButton btnRegister = new JButton("Register");
+	/** Deletion button for the database */
+	private JButton btnDelete = new JButton("Delete");
 	/**  Clear button for clearing the text fields. */
 	private JButton btnClear = new JButton("Clear");
 	
@@ -126,14 +141,58 @@ public class Insert extends Window {
 	public Insert(String windowName) throws ParseException {
 		super(windowName);
 		
-		Per perPanel = new Per();
-		Tar tarPanel = new Tar();
-		
 		this.paneBtn.setLayout(new GridLayout(3,1));
 		this.paneBtn.add(this.btnRegister);
 		this.paneBtn.add(this.btnClear);
 		
-		this.setContentPane(perPanel);
+		this.setContentPane(this.perPanel);
+		
+		cmbEntity.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				switch((String)cmbEntity.getSelectedItem()) {
+					case "Pessoa":
+						pane = perPanel;
+						break;
+					case "Tarefa":
+						pane = tarPanel;
+						break;
+					case "Participantes":
+						break;
+				}
+			}
+			
+		});
+		
+		this.btnRegister.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					insert((JPanel)getContentPane());
+				} catch (Exception exp) {
+					exp.printStackTrace();
+				}
+			}
+			
+		});
+	}
+	
+	/**
+	 * Gathers the data inserted into the fields of the panel to call <code>Model.insert(Model)</code>.
+	 * @param panel is the panel to gather the data from.
+	 * @throws SQLException if sql happens lol
+	 * @throws IllegalArgumentException if the panel is invalid.
+	 */
+	private static void insert(JPanel panel) throws IllegalArgumentException, SQLException {
+		if(panel instanceof Per) {
+			Per pessoa = (Per)panel;
+			Model.insert(new Pessoa(pessoa.txtNome.getText(), pessoa.txtEmail.getText()));
+		} else if(panel instanceof Tar) {
+			Tar tarefa = (Tar)panel;
+			Model.insert(new Tarefa(tarefa.txtTitulo.getText(), tarefa.txtDesc.getText(), tarefa.txtPrazo.getText(), tarefa.txtPrazoInicio.getText(), tarefa.txtPrazoTermino.getText(), tarefa.cmbMetodo.getSelectedIndex()));
+		}
 	}
 	
 	public static void main(String...args) {
