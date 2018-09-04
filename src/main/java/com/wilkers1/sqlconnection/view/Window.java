@@ -15,9 +15,9 @@ public class Window extends JFrame{
 	protected Container pane = this.getContentPane();
 	
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
-	public static final int PESSOA = 2 +2;
+	public static final int PESSOA = 2 +Insert.EXCLUSIVE_FIELDS;
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
-	public static final int TAREFA = 7 +2;
+	public static final int TAREFA = 7 +Insert.EXCLUSIVE_FIELDS;
 	/** identifier for setting up {@link #buildLayout(GridBagLayout, int)} */
 	public static final int REF_PARTICIPANTE = Window.PESSOA; 
 	
@@ -81,6 +81,9 @@ public class Window extends JFrame{
 		if(fieldCount<1) { throw new IllegalArgumentException("Invalid setup."); }
 		pos = new GridBagConstraints[fieldCount][2];
 		
+		//
+		//GRIDBAG LAYOUT SETUP
+		//
 		//space,	field,	gap,	field,field,	space
 		layout.columnWeights = new double[] {0,0,0,0,1,0};
 		//||label|field-field||
@@ -92,16 +95,62 @@ public class Window extends JFrame{
 				new int[fieldCount+(fieldCount-1)+2];
 		//ROW WEIGHTS
 		layout.rowWeights = new double[layout.rowHeights.length]; //same array size as rowHeights
-		for(double row : layout.rowWeights) { row = 0; } //sets every row to 0
+		for(@SuppressWarnings("unused") double row : layout.rowWeights) { row = 0; } //sets every row to 0
 		layout.rowWeights[0] = layout.rowWeights[layout.rowWeights.length-1] = 1; //first and last rows are 1
 		
 		//if there is more than 1 field
 		if(fieldCount != 3) {
-			for(int row=0; row<layout.rowHeights.length; row++) {
-				layout.rowHeights[row] = row%2==0?ygap:barx;
+			for(int row=0; row<layout.rowHeights.length; row++) { //repeats for every entry of rowHeights...
+				layout.rowHeights[row] = row%2==0?ygap:barx; //if even number, set gap. if not, set bar.
 			}
 			layout.rowHeights[0] = layout.rowHeights[layout.rowHeights.length-1] = borderBoxSize;
 		}
+		
+		//
+		//CONSTRAINTS SETUP
+		//TODO: fix broken code
+		for(int row = 0; row<pos.length; row++) { //repeats for every row...
+			System.out.println(row);
+			if(row==0) //if it's the first or last row
+				pos[row] = new GridBagConstraints[] {
+					new GridBagConstraints() {
+						{
+							this.fill = GridBagConstraints.BOTH; //the constraint will fill the element at both directions.
+							this.gridwidth = 4; //sets the width of the constraint to fill the row.
+							this.gridx = 1; //sets up the column space
+						}
+					}
+				};
+			else
+				pos[row] = new GridBagConstraints[] {
+					new GridBagConstraints() {
+						{
+							this.fill = GridBagConstraints.BOTH; //the constraint will fill the element at both directions.
+							this.gridwidth = 1; //sets the width of the constraint to fill the row.
+							this.gridx = 1; //sets up the column space
+						}
+					},
+					new GridBagConstraints() {
+						{
+							this.fill = GridBagConstraints.BOTH; //the constraint will fill the element at both directions.
+							this.gridwidth = 1; //sets the width of the constraint to fill the row.
+							this.gridx = 3; //sets up the column space
+						}
+					}
+				};
+			for(GridBagConstraints posx : pos[row]) { //repeats for every column...
+				posx.gridy = row==0?1: (pos[row-1][0].gridy+2); //starting at 1, the Y position of every column will be equals to the current Y position of the previous row plus 2.
+			}
+			
+			pos[row][0].gridx = 1; //sets up the position of the first constraint of this row.
+			pos[row][0].gridwidth = pos[row].length==2?1:4;
+			if(pos[row].length!=1) { //if the size is greater than 1
+				pos[row][1].gridx = 3; //sets up the position
+				pos[row][1].gridwidth = 2; //and size of this constraint.
+			}
+		}
+		pos[pos.length-1] =new GridBagConstraints[] {new GridBagConstraints()};
+		
 		
 		/*
 		double[] rowWeights = new double[pos.length*2 +1]; //creates a new set of row weights

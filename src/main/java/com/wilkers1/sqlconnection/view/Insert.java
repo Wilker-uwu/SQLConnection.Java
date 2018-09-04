@@ -26,6 +26,8 @@ import com.wilkers1.sqlconnection.model.Tarefa;
 @SuppressWarnings("serial")
 public class Insert extends Window {
 	
+	protected static int EXCLUSIVE_FIELDS = 3;
+	
 	/**
 	 * {@link JPanel} instance used for having fields for creating instances of {@link Pessoa}
 	 */
