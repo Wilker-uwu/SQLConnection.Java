@@ -5,6 +5,7 @@ import java.lang.SecurityException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 abstract class JdbcDAO {
 	private static Connection _conn = null;
@@ -28,4 +29,14 @@ abstract class JdbcDAO {
 	
 	protected abstract void insert(Model mdl) throws SQLException;
 	protected abstract void delete(Model mdl) throws SQLException, NullPointerException, IllegalAccessException;
+	
+	//TODO lies
+	public static void main(String[] a) {
+		Scanner s = new Scanner(System.in);
+		String sc;
+		while(sc.equals(".quit!")) {
+			System.out.print("\ninput> ");
+		}
+		System.out.println(sc);
+	}
 }

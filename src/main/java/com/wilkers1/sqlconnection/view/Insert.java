@@ -45,7 +45,7 @@ public class Insert extends Window {
 			super();
 			//layout setup
 			this.setLayout(bag);
-			this.field = Window.buildLayout(this.field, bag, Insert.PESSOA);
+			this.field = Window.buildLayout(this.field, bag, Window.PESSOA +Insert.EXCLUSIVE_FIELDS);
 			//formatted text field instances setup
 			txtNome = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 			txtEmail = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
@@ -92,7 +92,7 @@ public class Insert extends Window {
 			super();
 			//layout setup
 			this.setLayout(bag);
-			this.field = Window.buildLayout(this.field, bag, Insert.TAREFA);
+			this.field = Window.buildLayout(this.field, bag, Window.TAREFA +Insert.EXCLUSIVE_FIELDS);
 			//formatted text field instances setup
 			txtTitulo = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 			//title setup
@@ -118,7 +118,7 @@ public class Insert extends Window {
 		}
 	}
 	
-	/** Label for entity tyoe selector */
+	/** Label for entity type selector */
 	private JLabel lblEntity = new JLabel("Tipo de entidade:");
 	/** Entity selector combo box, for switching between panels */
 	private JComboBox<String> cmbEntity = new JComboBox<String>(new String[] {"Pessoa", "Tarefa", "Participantes"});
@@ -135,6 +135,9 @@ public class Insert extends Window {
 	/**  Clear button for clearing the text fields. */
 	private JButton btnClear = new JButton("Clear");
 	
+	/** Container for holding the panels */
+	Container pane = this.getContentPane();
+	
 	/**
 	 * Constructor for the registration window.
 	 * @param windowName is the name of the window.
@@ -147,7 +150,8 @@ public class Insert extends Window {
 		this.paneBtn.add(this.btnRegister);
 		this.paneBtn.add(this.btnClear);
 		
-		this.setContentPane(this.perPanel);
+		pane.add(this.perPanel);
+		
 		
 		cmbEntity.addItemListener(new ItemListener() {
 
@@ -155,10 +159,12 @@ public class Insert extends Window {
 			public void itemStateChanged(ItemEvent arg0) {
 				switch((String)cmbEntity.getSelectedItem()) {
 					case "Pessoa":
-						pane = perPanel;
+						pane.remove(tarPanel);
+						pane.add(perPanel);
 						break;
 					case "Tarefa":
-						pane = tarPanel;
+						pane.remove(perPanel);
+						pane.add(tarPanel);
 						break;
 					case "Participantes":
 						break;
