@@ -149,22 +149,32 @@ public class Insert extends Window {
 		}
 	}
 	
+	private class Btn extends JPanel {
+		
+		protected Btn() {
+			this.setLayout(new GridLayout(1,0));
+			this.add(btnRegister);
+			this.add(btnDelete);
+			this.add(btnClear);
+		}
+		
+	}
+	
 	/** Label for entity type selector */
 	private JLabel lblEntity = new JLabel("Tipo de entidade:");
 	/** Entity selector combo box, for switching between panels */
 	private JComboBox<String> cmbEntity = new JComboBox<String>(new String[] {"Pessoa", "Tarefa", "Participantes"});
 	
-	private Per perPanel = new Per();
-	private Tar tarPanel = new Tar();
-	
-	/** JPanel instance for holding the action buttons */
-	private JPanel paneBtn = new JPanel(false);
 	/** Registration button for the database */
 	private JButton btnRegister = new JButton("Register");
 	/** Deletion button for the database */
 	private JButton btnDelete = new JButton("Delete");
 	/**  Clear button for clearing the text fields. */
 	private JButton btnClear = new JButton("Clear");
+	
+	private Per perPanel = new Per();
+	private Tar tarPanel = new Tar();
+	private Btn btnPanel = new Btn();
 	
 	/** Container for holding the panels */
 	Container pane = this.getContentPane();
@@ -177,13 +187,9 @@ public class Insert extends Window {
 	public Insert(String windowName) throws ParseException {
 		super(windowName);
 		
-		this.paneBtn.setLayout(new GridLayout(1,3));
-		this.paneBtn.add(this.btnRegister);
-		this.paneBtn.add(this.btnClear);
-		
 		this.setLayout(new GridLayout(3,1));
 		this.add(this.perPanel);
-		this.add(this.paneBtn);
+		this.add(this.btnPanel);
 		
 		
 		cmbEntity.addItemListener(new ItemListener() {
