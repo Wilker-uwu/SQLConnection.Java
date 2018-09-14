@@ -33,9 +33,10 @@ abstract class JdbcDAO {
 	//TODO lies
 	public static void main(String[] a) {
 		Scanner s = new Scanner(System.in);
-		String sc;
+		String sc = "";
 		while(sc.equals(".quit!")) {
 			System.out.print("\ninput> ");
+			sc = s.next();
 		}
 		System.out.println(sc);
 	}

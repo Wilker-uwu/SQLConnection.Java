@@ -1,7 +1,6 @@
 package com.wilkers1.sqlconnection.view;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,11 +24,9 @@ import com.wilkers1.sqlconnection.model.Pessoa;
 import com.wilkers1.sqlconnection.model.Tarefa;
 
 @SuppressWarnings("serial")
-public class Insert extends Window {
+public class Insert_deprecated extends Window {
 	
-	Dimension grid = new Dimension(6, 8);
-	Dimension label = new Dimension(120, 22);
-	Dimension textField = new Dimension(300, 22);
+	protected static int EXCLUSIVE_FIELDS = 3;
 	
 	/**
 	 * {@link JPanel} instance used for having fields for creating instances of {@link Pessoa}
@@ -47,28 +44,22 @@ public class Insert extends Window {
 		protected Per() throws ParseException {
 			super();
 			//layout setup
-			this.setLayout(null);
+			this.setLayout(bag);
+			this.field = Window.buildLayout(this.field, bag, Window.PESSOA +Insert_deprecated.EXCLUSIVE_FIELDS);
 			//formatted text field instances setup
 			txtNome = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
 			txtEmail = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
-			
-			lblNome .setSize(label);
-			lblEmail.setSize(label);
-			txtNome .setSize(textField);
-			txtEmail.setSize(textField);
-			
-			
-			lblNome  .setLocation(grid.width*2, grid.height);
-			lblEmail .setLocation(grid.width*2, lblNome.getY() +grid.height +label.height);
-			
-			txtNome  .setLocation(lblNome .getX() +label.width +grid.width,   grid.height);
-			txtEmail .setLocation(lblEmail.getX() +label.width +grid.width,   txtNome.getY() +grid.height +label.height);			
+			//title setup
+			this.add(new JLabel("Pessoa..."), this.field[0][0]);
+			//selector setup
+			this.add(lblEntity, this.field[1][0]);
+			this.add(cmbEntity, this.field[1][1]);
 			
 			//field setup
-			this.add(this.lblNome); //labels
-			this.add(this.lblEmail);
-			this.add(this.txtNome); //fields
-			this.add(this.txtEmail);
+			this.add(this.lblNome,  this.field[2][0]); //labels
+			this.add(this.lblEmail, this.field[2][0]);
+			this.add(this.txtNome,  this.field[3][1]); //fields
+			this.add(this.txtEmail, this.field[3][1]);
 		}
 	}
 	
@@ -76,6 +67,8 @@ public class Insert extends Window {
 	 * {@link JPanel} instance used for having fields for creating instances of {@link RefParticipante}
 	 */
 	private class Tar extends JPanel {
+		/** Constraint arrays for setting up the fields. */
+		protected GridBagConstraints[][] field = null;
 		
 		protected JLabel lblTitulo = new JLabel("Título:");
 		protected JLabel lblDesc = new JLabel("Descrição:");
@@ -97,55 +90,31 @@ public class Insert extends Window {
 		
 		protected Tar() throws ParseException {
 			super();
-			
 			//layout setup
-			this.setLayout(null);
-			txtTitulo = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
-			
-			lblTitulo      .setSize(label);                               
-			lblDesc        .setSize(label);                               
-			lblPrazo       .setSize(label);                               
-			lblPrazoInicio .setSize(label);                               
-			lblPrazoTermino.setSize(label);                               
-			lblMetodo      .setSize(label);                               
-			                                                              
-			txtTitulo      .setSize(textField);                           
-			scrDesc        .setSize(textField.width, textField.height*5); 
-			txtPrazo       .setSize(textField);                           
-			txtPrazoInicio .setSize(textField);                           
-			txtPrazoTermino.setSize(textField);                           
-			cmbMetodo      .setSize(textField);                           
-			
-			lblTitulo      .setLocation(grid.width*2, grid.height);
-			lblDesc        .setLocation(grid.width*2, lblTitulo      .getY() +txtTitulo      .getY() +grid.height +txtTitulo      .getHeight());
-			lblPrazo       .setLocation(grid.width*2, lblDesc        .getY() +txtDesc        .getY() +grid.height +scrDesc        .getHeight());
-			lblPrazoInicio .setLocation(grid.width*2, lblPrazo       .getY() +txtPrazo       .getY() +grid.height +txtPrazo       .getHeight());
-			lblPrazoTermino.setLocation(grid.width*2, lblPrazoInicio .getY() +txtPrazoInicio .getY() +grid.height +txtPrazoInicio .getHeight());
-			lblMetodo      .setLocation(grid.width*2, lblPrazoTermino.getY() +txtPrazoTermino.getY() +grid.height +txtPrazoTermino.getHeight());
-
+			this.setLayout(bag);
+			this.field = Window.buildLayout(this.field, bag, Window.TAREFA +Insert_deprecated.EXCLUSIVE_FIELDS);
 			//formatted text field instances setup
-			txtTitulo      .setLocation(lblTitulo      .getX() +label.width +grid.width,   grid.height);
-			scrDesc        .setLocation(lblDesc        .getX() +label.width +grid.width,   txtTitulo      .getY() +grid.height +txtTitulo      .getHeight());
-			txtPrazo       .setLocation(lblPrazo       .getX() +label.width +grid.width,   scrDesc        .getY() +grid.height +scrDesc        .getHeight());
-			txtPrazoInicio .setLocation(lblPrazoInicio .getX() +label.width +grid.width,   txtPrazo       .getY() +grid.height +txtPrazo       .getHeight());
-			txtPrazoTermino.setLocation(lblPrazoTermino.getX() +label.width +grid.width,   txtPrazoInicio .getY() +grid.height +txtPrazoInicio .getHeight());
-			cmbMetodo      .setLocation(lblMetodo      .getX() +label.width +grid.width,   txtPrazoTermino.getY() +grid.height +txtPrazoTermino.getHeight());
-			System.out.println(scrDesc.getX());
-			System.out.println(scrDesc.getY());
+			txtTitulo = new JFormattedTextField(new MaskFormatter("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"));
+			//title setup
+			this.add(new JLabel("Tarefas..."),this.field[0][0]);
+			//selector setup
+			this.add(lblEntity, this.field[1][0]);
+			this.add(cmbEntity, this.field[1][1]);
 			
 			//fields setup
-			this.add(this.lblTitulo); //labels
-			this.add(this.lblDesc);
-			this.add(this.lblPrazo);
-			this.add(this.lblPrazoInicio);
-			this.add(this.lblPrazoTermino);
-			this.add(this.lblMetodo);
-			this.add(this.txtTitulo); //fields
-			this.add(this.scrDesc);
-			this.add(this.txtPrazo);
-			this.add(this.txtPrazoInicio);
-			this.add(this.txtPrazoTermino);
-			this.add(this.cmbMetodo);
+			this.add(this.lblTitulo,       this.field[2][0]); //labels
+			this.add(this.lblDesc,         this.field[3][0]);
+			this.add(this.lblPrazo,        this.field[4][0]);
+			this.add(this.lblPrazoInicio,  this.field[5][0]);
+			this.add(this.lblPrazoTermino, this.field[6][0]);
+			this.add(this.lblMetodo,       this.field[7][0]);
+			this.add(this.txtTitulo,       this.field[2][1]); //fields
+			this.add(this.scrDesc,         this.field[3][1]);
+			this.add(this.txtPrazo,        this.field[4][1]);
+			this.add(this.txtPrazoInicio,  this.field[5][1]);
+			this.add(this.txtPrazoTermino, this.field[6][1]);
+			this.add(this.cmbMetodo,       this.field[7][1]);
+			
 		}
 	}
 	
@@ -174,16 +143,14 @@ public class Insert extends Window {
 	 * @param windowName is the name of the window.
 	 * @throws ParseException 
 	 */
-	public Insert(String windowName) throws ParseException {
+	public Insert_deprecated(String windowName) throws ParseException {
 		super(windowName);
 		
-		this.paneBtn.setLayout(new GridLayout(1,3));
+		this.paneBtn.setLayout(new GridLayout(3,1));
 		this.paneBtn.add(this.btnRegister);
 		this.paneBtn.add(this.btnClear);
 		
-		this.setLayout(new GridLayout(3,1));
-		this.add(this.perPanel);
-		this.add(this.paneBtn);
+		pane.add(this.perPanel);
 		
 		
 		cmbEntity.addItemListener(new ItemListener() {
@@ -239,7 +206,7 @@ public class Insert extends Window {
 	public static void main(String...args) {
 		//new Insert("Inserir", Window.TAREFA);
 		try {
-			new Insert("Inserir").setLocationRelativeTo(null);
+			new Insert_deprecated("Inserir");
 		} catch (ParseException exp) {
 			exp.printStackTrace();
 		}
