@@ -1,8 +1,10 @@
 package com.wilkers1.sqlconnection.view;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,6 +71,10 @@ public class Insert extends Window {
 			this.add(this.lblEmail);
 			this.add(this.txtNome); //fields
 			this.add(this.txtEmail);
+		}
+		
+		protected Pessoa getPessoa() {
+			return new Pessoa(this.txtNome.getText(), this.txtEmail.getText());
 		}
 	}
 	
@@ -186,6 +192,29 @@ public class Insert extends Window {
 	 */
 	public Insert(String windowName) throws ParseException {
 		super(windowName);
+		
+		/*GridBagLayout bag = new GridBagLayout();
+		bag.columnWeights = new double[] {0,  1,   1,    1,  0};
+		bag.columnWidths =  new int[]    {8, 10, 200,   10,  8};
+		bag.rowWeights = new double[] { 1,   1,  0.001,   1,   1};
+		bag.rowHeights = new int[]    {12, 128,  8,     128,  12};
+		this.setLayout(bag);
+		
+		GridBagConstraints panel = new GridBagConstraints();
+		GridBagConstraints buttons = new GridBagConstraints();
+		
+		panel.gridx = 1;
+		panel.gridy = 1;
+		panel.gridwidth = 3;
+		panel.gridheight = 1;
+		
+		buttons.gridx = 2;
+		buttons.gridy = 3;
+		buttons.gridwidth = 1;
+		buttons.gridheight = 1;
+		
+		this.add(this.perPanel, panel);
+		this.add(this.btnPanel, buttons);*/
 		
 		this.setLayout(new GridLayout(3,1));
 		this.add(this.perPanel);
